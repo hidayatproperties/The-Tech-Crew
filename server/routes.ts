@@ -68,6 +68,12 @@ export async function registerRoutes(
     res.status(201).json(car);
   });
 
+  app.put("/api/cars/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Unauthorized" });
+    const car = await storage.updateCar(Number(req.params.id), req.body);
+    res.json(car);
+  });
+
   app.delete(api.cars.delete.path, async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Unauthorized" });
     await storage.deleteCar(Number(req.params.id));

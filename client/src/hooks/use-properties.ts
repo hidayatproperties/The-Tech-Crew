@@ -9,7 +9,6 @@ type PropertyFilter = {
 };
 
 export function useProperties(filters?: PropertyFilter) {
-  // Convert filters to query string manually or via URLSearchParams
   const queryString = filters ? '?' + new URLSearchParams(filters as Record<string, string>).toString() : '';
   const url = api.properties.list.path + queryString;
 
@@ -48,6 +47,26 @@ export function useCreateProperty() {
       });
       if (!res.ok) throw new Error("Failed to create property");
       return api.properties.create.responses[201].parse(await res.json());
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.properties.list.path] });
+    },
+  });
+}
+
+export function useUpdateProperty() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: Partial<InsertProperty> }) => {
+      const url = buildUrl(api.properties.update.path, { id });
+      const res = await fetch(url, {
+        method: api.properties.update.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Failed to update property");
+      return api.properties.update.responses[200].parse(await res.json());
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.properties.list.path] });

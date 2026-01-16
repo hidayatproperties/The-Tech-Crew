@@ -35,6 +35,25 @@ export function useCreateCar() {
   });
 }
 
+export function useUpdateCar() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: Partial<InsertCar> }) => {
+      const res = await fetch(`/api/cars/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Failed to update car");
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.cars.list.path] });
+    },
+  });
+}
+
 export function useDeleteCar() {
   const queryClient = useQueryClient();
   return useMutation({

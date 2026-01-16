@@ -29,7 +29,7 @@ export interface IStorage {
 
   // Cars
   getCars(): Promise<Car[]>;
-  createCar(car: InsertCar): Promise<Car>;
+  updateCar(id: number, updates: Partial<InsertCar>): Promise<Car>;
   deleteCar(id: number): Promise<void>;
 
   // Enquiries
@@ -95,6 +95,11 @@ export class DatabaseStorage implements IStorage {
   async createCar(car: InsertCar): Promise<Car> {
     const [newCar] = await db.insert(cars).values(car).returning();
     return newCar;
+  }
+
+  async updateCar(id: number, updates: Partial<InsertCar>): Promise<Car> {
+    const [updated] = await db.update(cars).set(updates).where(eq(cars.id, id)).returning();
+    return updated;
   }
 
   async deleteCar(id: number): Promise<void> {
