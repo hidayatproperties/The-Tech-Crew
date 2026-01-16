@@ -254,10 +254,12 @@ const form = useForm({
 });
 
 const onSubmit = (data: any) => {
-  // If features is empty string, convert to array
+  // Description and Features are handled together in the UI but stored separately if needed
+  // However, based on schema, description is a text field and features is a text array
+  // We'll split the description/features field by commas to populate the features array
   const formattedData = {
     ...data,
-    features: typeof data.features === 'string' ? data.features.split(',').map((f: string) => f.trim()) : data.features
+    features: data.description ? data.description.split(',').map((f: string) => f.trim()).filter((f: string) => f.length > 0) : []
   };
   
   createCar(formattedData, {
