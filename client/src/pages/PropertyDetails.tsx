@@ -56,6 +56,22 @@ export default function PropertyDetails() {
                 className="w-full h-full object-cover"
               />
             </div>
+            
+            {/* Additional Images Grid */}
+            {property.images && property.images.length > 0 && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {property.images.map((img: string, idx: number) => (
+                  <div key={idx} className="aspect-video rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer group">
+                    <img 
+                      src={img} 
+                      alt={`${property.title} - ${idx + 1}`} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      onClick={() => window.open(img, '_blank')}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="grid grid-cols-3 gap-4">
               <div className="bg-primary/5 p-4 rounded-2xl border border-primary/10 text-center">
                 <BedDouble className="w-6 h-6 mx-auto mb-2 text-primary" />

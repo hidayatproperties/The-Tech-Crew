@@ -4,10 +4,10 @@ import { useEnquiries } from "@/hooks/use-enquiries";
 import { useProperties, useDeleteProperty, useCreateProperty, useUpdateProperty } from "@/hooks/use-properties";
 import { useCars, useDeleteCar, useCreateCar, useUpdateCar } from "@/hooks/use-cars";
 import { useState, useEffect } from "react";
-import { Loader2, Trash2, Plus, LayoutGrid, Car as CarIcon, MessageSquare, X, Edit2 } from "lucide-react";
+import { Loader2, Trash2, Plus, LayoutGrid, Car as CarIcon, MessageSquare, X, Edit2, Image as ImageIcon } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertPropertySchema, insertCarSchema } from "@shared/schema";
 
@@ -79,10 +79,16 @@ function PropertiesManager() {
       location: "",
       price: 0,
       imageUrl: "",
+      images: [],
       specs: { bedrooms: 1, bathrooms: 1, area: 500 },
       features: [],
       isFeatured: false
     }
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "images" as any
   });
 
   useEffect(() => {
@@ -94,6 +100,7 @@ function PropertiesManager() {
         location: editingProperty.location,
         price: editingProperty.price,
         imageUrl: editingProperty.imageUrl,
+        images: editingProperty.images || [],
         specs: editingProperty.specs,
         features: editingProperty.features,
         isFeatured: editingProperty.isFeatured
@@ -106,6 +113,7 @@ function PropertiesManager() {
         location: "",
         price: 0,
         imageUrl: "",
+        images: [],
         specs: { bedrooms: 1, bathrooms: 1, area: 500 },
         features: [],
         isFeatured: false
@@ -114,8 +122,16 @@ function PropertiesManager() {
   }, [editingProperty, form]);
 
   const onSubmit = (data: any) => {
+    // Filter out empty image URLs and handle potential undefined
+    const images = Array.isArray(data.images) ? data.images.filter((img: any) => typeof img === 'string' && img.trim() !== "") : [];
+    
+    const formattedData = {
+      ...data,
+      images
+    };
+
     if (editingProperty) {
-      updateProperty({ id: editingProperty.id, data }, {
+      updateProperty({ id: editingProperty.id, data: formattedData }, {
         onSuccess: () => {
           toast({ title: "Property Updated" });
           setShowForm(false);
@@ -123,7 +139,7 @@ function PropertiesManager() {
         }
       });
     } else {
-      createProperty(data, {
+      createProperty(formattedData, {
         onSuccess: () => {
           toast({ title: "Property Created" });
           setShowForm(false);
@@ -179,8 +195,36 @@ function PropertiesManager() {
                     <input type="number" {...form.register("price", { valueAsNumber: true })} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                   </div>
                   <div className="md:col-span-2 space-y-1.5">
-                    <label className="block text-sm font-semibold text-slate-700">Image URL</label>
+                    <label className="block text-sm font-semibold text-slate-700">Main Image URL</label>
                     <input {...form.register("imageUrl")} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="https://images.unsplash.com/..." />
+                  </div>
+                  <div className="md:col-span-2 space-y-3">
+                    <label className="block text-sm font-semibold text-slate-700">Additional Images</label>
+                    <div className="space-y-2">
+                      {fields.map((field, index) => (
+                        <div key={field.id} className="flex gap-2">
+                          <input
+                            {...form.register(`images.${index}` as any)}
+                            className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                            placeholder="Additional image URL..."
+                          />
+                          <button
+                            type="button"
+                            onClick={() => remove(index)}
+                            className="p-2.5 text-slate-400 hover:text-destructive hover:bg-destructive/10 rounded-xl transition-all"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => append("")}
+                        className="flex items-center gap-2 text-sm text-primary font-bold hover:underline"
+                      >
+                        <Plus className="w-4 h-4" /> Add Another Image
+                      </button>
+                    </div>
                   </div>
                   <div className="space-y-1.5">
                     <label className="block text-sm font-semibold text-slate-700">Bedrooms</label>
@@ -291,10 +335,16 @@ function CarsManager() {
       category: "economy",
       pricePerDay: 0,
       imageUrl: "",
+      images: [],
       isAvailable: true,
       features: [],
       description: ""
     }
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "images" as any
   });
 
   useEffect(() => {
@@ -304,6 +354,7 @@ function CarsManager() {
         category: editingCar.category,
         pricePerDay: editingCar.pricePerDay,
         imageUrl: editingCar.imageUrl,
+        images: editingCar.images || [],
         isAvailable: editingCar.isAvailable,
         features: editingCar.features,
         description: editingCar.features?.join(', ') || ""
@@ -314,6 +365,7 @@ function CarsManager() {
         category: "economy",
         pricePerDay: 0,
         imageUrl: "",
+        images: [],
         isAvailable: true,
         features: [],
         description: ""
@@ -322,8 +374,11 @@ function CarsManager() {
   }, [editingCar, form]);
 
   const onSubmit = (data: any) => {
+    const images = Array.isArray(data.images) ? data.images.filter((img: any) => typeof img === 'string' && img.trim() !== "") : [];
+    
     const formattedData = {
       ...data,
+      images,
       features: data.description ? data.description.split(',').map((f: string) => f.trim()).filter((f: string) => f.length > 0) : []
     };
     
@@ -390,8 +445,36 @@ function CarsManager() {
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="block text-sm font-semibold text-slate-700">Image URL</label>
+                  <label className="block text-sm font-semibold text-slate-700">Main Image URL</label>
                   <input {...form.register("imageUrl")} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="https://..." />
+                </div>
+                <div className="space-y-3">
+                  <label className="block text-sm font-semibold text-slate-700">Additional Images</label>
+                  <div className="space-y-2">
+                    {fields.map((field, index) => (
+                      <div key={field.id} className="flex gap-2">
+                        <input
+                          {...form.register(`images.${index}` as any)}
+                          className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                          placeholder="Additional image URL..."
+                        />
+                        <button
+                          type="button"
+                          onClick={() => remove(index)}
+                          className="p-2.5 text-slate-400 hover:text-destructive hover:bg-destructive/10 rounded-xl transition-all"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => append("")}
+                      className="flex items-center gap-2 text-sm text-primary font-bold hover:underline"
+                    >
+                      <Plus className="w-4 h-4" /> Add Another Image
+                    </button>
+                  </div>
                 </div>
                 <div className="space-y-1.5">
                   <label className="block text-sm font-semibold text-slate-700">Description & Features</label>

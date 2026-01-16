@@ -19,6 +19,7 @@ export const properties = pgTable("properties", {
   location: text("location").notNull(),
   price: integer("price").notNull(),
   imageUrl: text("image_url").notNull(),
+  images: text("images").array().notNull().default([]),
   specs: jsonb("specs").$type<{ bedrooms: number; bathrooms: number; area: number }>().notNull(),
   features: text("features").array(),
   isFeatured: boolean("is_featured").default(false),
@@ -31,6 +32,7 @@ export const cars = pgTable("cars", {
   category: text("category").notNull(), // 'economy', 'luxury', '4x4'
   pricePerDay: integer("price_per_day").notNull(),
   imageUrl: text("image_url").notNull(),
+  images: text("images").array().notNull().default([]),
   isAvailable: boolean("is_available").default(true),
   features: text("features").array(),
   description: text("description"),
@@ -50,8 +52,12 @@ export const enquiries = pgTable("enquiries", {
 
 // Schemas
 export const insertUserSchema = createInsertSchema(users);
-export const insertPropertySchema = createInsertSchema(properties);
-export const insertCarSchema = createInsertSchema(cars);
+export const insertPropertySchema = createInsertSchema(properties, {
+  images: z.array(z.string()).default([])
+});
+export const insertCarSchema = createInsertSchema(cars, {
+  images: z.array(z.string()).default([])
+});
 export const insertEnquirySchema = createInsertSchema(enquiries);
 
 // Types
