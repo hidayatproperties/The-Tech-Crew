@@ -70,7 +70,7 @@ function PropertiesManager() {
   const [showForm, setShowForm] = useState(false);
   const [editingProperty, setEditingProperty] = useState<any>(null);
 
-  const form = useForm({
+  const form = useForm<any>({
     resolver: zodResolver(insertPropertySchema),
     defaultValues: {
       title: "",
@@ -88,7 +88,7 @@ function PropertiesManager() {
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: "images" as any
+    name: "images"
   });
 
   useEffect(() => {
@@ -328,7 +328,7 @@ function CarsManager() {
   const [showForm, setShowForm] = useState(false);
   const [editingCar, setEditingCar] = useState<any>(null);
 
-  const form = useForm({
+  const form = useForm<any>({
     resolver: zodResolver(insertCarSchema),
     defaultValues: {
       name: "",
@@ -344,7 +344,7 @@ function CarsManager() {
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: "images" as any
+    name: "images"
   });
 
   useEffect(() => {
