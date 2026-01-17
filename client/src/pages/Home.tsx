@@ -14,9 +14,9 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           {/* Hero background image - modern office/cityscape */}
           <img 
-            src="https://i.postimg.cc/pXDr31Zh/david-rodrigo-Fr6zexbmjmc-unsplash.jpg" 
+            src="https://i.postimg.cc/yNLZHq61/david-rodrigo-Fr6zexbmjmc-unsplash.jpg" 
             alt="City Skyline" 
-            className="w-full h-full object-cover opacity-30"
+            className="w-full h-full object-cover opacity-100"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background"></div>
         </div>

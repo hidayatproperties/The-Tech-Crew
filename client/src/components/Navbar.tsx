@@ -53,7 +53,7 @@ export function Navbar() {
                   <button onClick={() => logout()} className="text-sm text-muted-foreground hover:text-destructive">Sign Out</button>
                 </>
               ) : (
-                <Link href="/login" className="text-sm font-semibold text-muted-foreground hover:text-primary">Admin Login</Link>
+                <Link href="/login" className="text-lg hover:opacity-80 transition-opacity" title="Admin Login">🔘</Link>
               )}
             </div>
           </div>
@@ -116,10 +116,11 @@ export function Navbar() {
             ) : (
               <Link 
                 href="/login" 
-                className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:bg-muted"
+                className="block px-3 py-2 rounded-md text-lg font-medium text-muted-foreground hover:bg-muted"
                 onClick={() => setIsOpen(false)}
+                title="Admin Login"
               >
-                Admin Login
+                🔘
               </Link>
             )}
           </div>

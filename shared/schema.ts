@@ -17,7 +17,7 @@ export const properties = pgTable("properties", {
   description: text("description").notNull(),
   type: text("type").notNull(), // 'buy' or 'rent'
   location: text("location").notNull(),
-  price: integer("price").notNull(),
+  price: integer("price"),
   imageUrl: text("image_url").notNull(),
   images: text("images").array().notNull().default([]),
   specs: jsonb("specs").$type<{ bedrooms: number; bathrooms: number; area: number }>().notNull(),
