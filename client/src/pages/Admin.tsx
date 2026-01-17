@@ -127,7 +127,8 @@ function PropertiesManager() {
     
     const formattedData = {
       ...data,
-      images
+      images,
+      price: data.price === "" || data.price === null || isNaN(data.price) ? null : Number(data.price)
     };
 
     if (editingProperty) {
@@ -192,7 +193,7 @@ function PropertiesManager() {
                   </div>
                   <div className="space-y-1.5">
                     <label className="block text-sm font-semibold text-slate-700">Price (USD)</label>
-                    <input type="number" {...form.register("price", { valueAsNumber: true })} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                    <input type="number" {...form.register("price", { valueAsNumber: false })} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                   </div>
                   <div className="md:col-span-2 space-y-1.5">
                     <label className="block text-sm font-semibold text-slate-700">Main Image URL</label>

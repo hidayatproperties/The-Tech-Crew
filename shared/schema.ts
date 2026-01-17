@@ -53,7 +53,8 @@ export const enquiries = pgTable("enquiries", {
 // Schemas
 export const insertUserSchema = createInsertSchema(users);
 export const insertPropertySchema = createInsertSchema(properties, {
-  images: z.array(z.string()).default([])
+  images: z.array(z.string()).default([]),
+  price: z.number().nullable().optional()
 });
 export const insertCarSchema = createInsertSchema(cars, {
   images: z.array(z.string()).default([])
