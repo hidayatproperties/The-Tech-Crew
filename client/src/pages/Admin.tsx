@@ -294,7 +294,7 @@ function PropertiesManager() {
                   </span>
                 </td>
                 <td className="px-6 py-4 font-mono font-medium text-slate-700">
-                  ${p.price.toLocaleString()}
+                  {p.price ? `$${p.price.toLocaleString()}` : "Contact for Price"}
                 </td>
                 <td className="px-6 py-4 text-right flex justify-end gap-2">
                   <button onClick={() => { setEditingProperty(p); setShowForm(true); }} className="text-slate-400 hover:text-primary hover:bg-primary/10 p-2.5 rounded-xl transition-all">
