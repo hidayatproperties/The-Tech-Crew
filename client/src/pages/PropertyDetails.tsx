@@ -108,10 +108,12 @@ export default function PropertyDetails() {
                 <MapPin className="w-5 h-5 mr-2 text-primary" />
                 {property.location}
               </div>
-              <div className="text-3xl font-bold text-primary">
-                ${property.price.toLocaleString()}
-                {property.type === 'rent' && <span className="text-xl text-muted-foreground font-normal">/month</span>}
-              </div>
+              {property.price && (
+                <div className="text-3xl font-bold text-primary">
+                  ${property.price.toLocaleString()}
+                  {property.type === 'rent' && <span className="text-xl text-muted-foreground font-normal">/month</span>}
+                </div>
+              )}
             </div>
 
             <div className="glass-card p-8">
