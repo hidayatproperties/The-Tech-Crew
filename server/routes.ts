@@ -162,3 +162,9 @@ async function seedDatabase() {
     });
   }
 }
+
+// GET all properties
+app.get("/api/properties", async (req, res) => {
+  const data = await Property.find();
+  res.json(data);
+});
