@@ -3,7 +3,6 @@ import type { Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
-import { z } from "zod";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -15,7 +14,6 @@ export async function registerRoutes(
   // === Properties ===
   app.get(api.properties.list.path, async (req, res) => {
     const properties = await storage.getProperties();
-    // Filter logic could be moved to DB query for efficiency, doing in-mem for simplicity
     let filtered = properties;
     const type = req.query.type as string;
     if (type) {
@@ -125,6 +123,7 @@ async function seedDatabase() {
       location: "Downtown",
       price: 2500,
       imageUrl: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800",
+      images: ["https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800"],
       specs: { bedrooms: 2, bathrooms: 2, area: 1200 },
       features: ["Gym", "Pool", "Parking"],
       isFeatured: true
@@ -136,6 +135,7 @@ async function seedDatabase() {
       location: "Suburbs",
       price: 1500000,
       imageUrl: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800",
+      images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800"],
       specs: { bedrooms: 5, bathrooms: 4, area: 4000 },
       features: ["Garden", "Garage", "Smart Home"],
       isFeatured: true
@@ -149,6 +149,7 @@ async function seedDatabase() {
       category: "luxury",
       pricePerDay: 150,
       imageUrl: "https://images.unsplash.com/photo-1536700503339-1e4b06520771?auto=format&fit=crop&w=800",
+      images: ["https://images.unsplash.com/photo-1536700503339-1e4b06520771?auto=format&fit=crop&w=800"],
       features: ["Autopilot", "Electric", "GPS"],
       isAvailable: true
     });
@@ -157,14 +158,9 @@ async function seedDatabase() {
       category: "economy",
       pricePerDay: 40,
       imageUrl: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=800",
+      images: ["https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=800"],
       features: ["Bluetooth", "AC"],
       isAvailable: true
     });
   }
 }
-
-// GET all properties
-app.get("/api/properties", async (req, res) => {
-  const data = await Property.find();
-  res.json(data);
-});
