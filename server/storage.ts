@@ -1,40 +1,33 @@
-import { db, pool } from "./db";
-import {
-  users, properties, cars, enquiries,
-  type User, type InsertUser,
-  type Property, type InsertProperty,
-  type Car, type InsertCar,
-  type Enquiry, type InsertEnquiry
-} from "@shared/schema";
-import { eq, desc } from "drizzle-orm";
+import { users, properties, cars, enquiries, type User, type InsertUser, type Property, type InsertProperty, type Car, type InsertCar, type Enquiry, type InsertEnquiry } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
+import { pool } from "./db";
 
 const PostgresSessionStore = connectPg(session);
 
 export interface IStorage {
-  sessionStore: session.Store;
-
-  // Auth
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
 
-  // Properties
   getProperties(): Promise<Property[]>;
   getProperty(id: number): Promise<Property | undefined>;
   createProperty(property: InsertProperty): Promise<Property>;
-  updateProperty(id: number, updates: Partial<InsertProperty>): Promise<Property>;
+  updateProperty(id: number, property: Partial<InsertProperty>): Promise<Property>;
   deleteProperty(id: number): Promise<void>;
 
-  // Cars
   getCars(): Promise<Car[]>;
-  updateCar(id: number, updates: Partial<InsertCar>): Promise<Car>;
+  getCar(id: number): Promise<Car | undefined>;
+  createCar(car: InsertCar): Promise<Car>;
+  updateCar(id: number, car: Partial<InsertCar>): Promise<Car>;
   deleteCar(id: number): Promise<void>;
 
-  // Enquiries
-  createEnquiry(enquiry: InsertEnquiry): Promise<Enquiry>;
   getEnquiries(): Promise<Enquiry[]>;
+  createEnquiry(enquiry: InsertEnquiry): Promise<Enquiry>;
+
+  sessionStore: session.Store;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -47,7 +40,6 @@ export class DatabaseStorage implements IStorage {
     });
   }
 
-  // Auth
   async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
@@ -58,14 +50,13 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async createUser(user: InsertUser): Promise<User> {
-    const [newUser] = await db.insert(users).values(user).returning();
-    return newUser;
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db.insert(users).values(insertUser).returning();
+    return user;
   }
 
-  // Properties
   async getProperties(): Promise<Property[]> {
-    return await db.select().from(properties).orderBy(desc(properties.id));
+    return await db.select().from(properties);
   }
 
   async getProperty(id: number): Promise<Property | undefined> {
@@ -73,47 +64,60 @@ export class DatabaseStorage implements IStorage {
     return property;
   }
 
-  async createProperty(property: InsertProperty): Promise<Property> {
-    const [newProperty] = await db.insert(properties).values(property).returning();
-    return newProperty;
+  async createProperty(insertProperty: InsertProperty): Promise<Property> {
+    const [property] = await db.insert(properties).values(insertProperty).returning();
+    return property;
   }
 
-  async updateProperty(id: number, updates: Partial<InsertProperty>): Promise<Property> {
-    const [updated] = await db.update(properties).set(updates).where(eq(properties.id, id)).returning();
-    return updated;
+  async updateProperty(id: number, partialProperty: Partial<InsertProperty>): Promise<Property> {
+    const [property] = await db
+      .update(properties)
+      .set(partialProperty)
+      .where(eq(properties.id, id))
+      .returning();
+    if (!property) throw new Error("Property not found");
+    return property;
   }
 
   async deleteProperty(id: number): Promise<void> {
     await db.delete(properties).where(eq(properties.id, id));
   }
 
-  // Cars
   async getCars(): Promise<Car[]> {
-    return await db.select().from(cars).orderBy(desc(cars.id));
+    return await db.select().from(cars);
   }
 
-  async createCar(car: InsertCar): Promise<Car> {
-    const [newCar] = await db.insert(cars).values(car).returning();
-    return newCar;
+  async getCar(id: number): Promise<Car | undefined> {
+    const [car] = await db.select().from(cars).where(eq(cars.id, id));
+    return car;
   }
 
-  async updateCar(id: number, updates: Partial<InsertCar>): Promise<Car> {
-    const [updated] = await db.update(cars).set(updates).where(eq(cars.id, id)).returning();
-    return updated;
+  async createCar(insertCar: InsertCar): Promise<Car> {
+    const [car] = await db.insert(cars).values(insertCar).returning();
+    return car;
+  }
+
+  async updateCar(id: number, partialCar: Partial<InsertCar>): Promise<Car> {
+    const [car] = await db
+      .update(cars)
+      .set(partialCar)
+      .where(eq(cars.id, id))
+      .returning();
+    if (!car) throw new Error("Car not found");
+    return car;
   }
 
   async deleteCar(id: number): Promise<void> {
     await db.delete(cars).where(eq(cars.id, id));
   }
 
-  // Enquiries
-  async createEnquiry(enquiry: InsertEnquiry): Promise<Enquiry> {
-    const [newEnquiry] = await db.insert(enquiries).values(enquiry).returning();
-    return newEnquiry;
+  async getEnquiries(): Promise<Enquiry[]> {
+    return await db.select().from(enquiries);
   }
 
-  async getEnquiries(): Promise<Enquiry[]> {
-    return await db.select().from(enquiries).orderBy(desc(enquiries.createdAt));
+  async createEnquiry(insertEnquiry: InsertEnquiry): Promise<Enquiry> {
+    const [enquiry] = await db.insert(enquiries).values(insertEnquiry).returning();
+    return enquiry;
   }
 }
 
