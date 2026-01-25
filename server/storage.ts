@@ -70,11 +70,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateProperty(id: number, partialProperty: Partial<InsertProperty>): Promise<Property> {
-    const [property] = await db
+    const results = await db
       .update(properties)
       .set(partialProperty)
       .where(eq(properties.id, id))
       .returning();
+    const property = results[0];
     if (!property) throw new Error("Property not found");
     return property;
   }
@@ -98,11 +99,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateCar(id: number, partialCar: Partial<InsertCar>): Promise<Car> {
-    const [car] = await db
+    const results = await db
       .update(cars)
       .set(partialCar)
       .where(eq(cars.id, id))
       .returning();
+    const car = results[0];
     if (!car) throw new Error("Car not found");
     return car;
   }

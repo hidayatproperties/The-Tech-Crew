@@ -1,10 +1,9 @@
 import type { Express } from "express";
-import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: Express): Promise<void> {
   // Setup Auth (Passport session)
   setupAuth(app);
 
@@ -94,9 +93,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Seed Data
   await seedDatabase();
-
-  const httpServer = createServer(app);
-  return httpServer;
 }
 
 import { hashPassword } from "./auth";
