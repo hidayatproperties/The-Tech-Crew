@@ -44,7 +44,6 @@ export function Navbar() {
               </Link>
             ))}
             
-            <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-border">
               {user ? (
                 <>
                   <Link href="/admin" className="text-sm font-semibold text-primary hover:text-primary/80 flex items-center">
@@ -55,7 +54,6 @@ export function Navbar() {
               ) : (
                 <Link href="/login" className="text-lg hover:opacity-80 transition-opacity" title="Admin Login">🔘</Link>
               )}
-            </div>
           </div>
 
           {/* Mobile Menu Button */}

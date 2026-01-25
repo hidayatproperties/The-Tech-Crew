@@ -77,7 +77,7 @@ function PropertiesManager() {
       description: "",
       type: "buy",
       location: "",
-      price: 0,
+      price: "",
       imageUrl: "",
       images: [],
       specs: { bedrooms: 1, bathrooms: 1, area: 500 },
