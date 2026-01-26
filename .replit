@@ -9,6 +9,10 @@ channel = "stable-24_05"
 localPort = 3001
 externalPort = 80
 
+[[ports]]
+localPort = 5000
+externalPort = 80
+
 [env]
 PORT = "3001"
 
@@ -19,3 +23,27 @@ expertMode = true
 
 [userenv.shared]
 DATABASE_URL = "postgresql://neondb_owner:npg_2kUHx8jyCSen@ep-green-queen-a19djgdk-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Frontend Server"
+
+[[workflows.workflow]]
+name = "Frontend Server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"

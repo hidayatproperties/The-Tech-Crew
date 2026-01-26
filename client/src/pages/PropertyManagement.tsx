@@ -54,7 +54,7 @@ export default function PropertyManagement() {
             {/* Interior design / living room image */}
             <img 
               src="https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?q=80&w=2070&auto=format&fit=crop" 
-              alt="Luxury Interior" 
+              alt="Property interior" 
               className="relative rounded-3xl shadow-2xl border-4 border-white"
             />
           </div>
