@@ -1,44 +1,21 @@
-modules = ["nodejs-20", "postgresql-16"]
+modules = ["nodejs-20", "web", "postgresql-16"]
+run = "npm run dev"
+hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
+
 [nix]
-channel = "stable-25_05"
-packages = ["unzip"]
+channel = "stable-24_05"
+
+[[ports]]
+localPort = 3001
+externalPort = 80
+
+[env]
+PORT = "3001"
 
 [agent]
 expertMode = true
 
-[workflows]
-runButton = "Project"
+[userenv]
 
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "Frontend Server"
-
-[[workflows.workflow]]
-name = "Frontend Server"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev"
-waitForPort = 5000
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
-[[ports]]
-localPort = 3000
-externalPort = 3000
-
-[[ports]]
-localPort = 5000
-externalPort = 80
-
-[deployment]
-deploymentTarget = "autoscale"
-run = ["npm", "run", "start"]
-build = ["npm", "run", "build"]
+[userenv.shared]
+DATABASE_URL = "postgresql://neondb_owner:npg_2kUHx8jyCSen@ep-green-queen-a19djgdk-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"

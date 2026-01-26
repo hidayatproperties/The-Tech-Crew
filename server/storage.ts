@@ -1,11 +1,6 @@
 import { users, properties, cars, enquiries, type User, type InsertUser, type Property, type InsertProperty, type Car, type InsertCar, type Enquiry, type InsertEnquiry } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
-import session from "express-session";
-import connectPg from "connect-pg-simple";
-import { pool } from "./db";
-
-const PostgresSessionStore = connectPg(session);
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
