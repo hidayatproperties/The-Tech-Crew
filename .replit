@@ -22,6 +22,7 @@ expertMode = true
 [userenv]
 
 [userenv.shared]
+DATABASE_URL = "postgresql://neondb_owner:npg_2kUHx8jyCSen@ep-green-queen-a19djgdk-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
 [workflows]
 runButton = "Project"
