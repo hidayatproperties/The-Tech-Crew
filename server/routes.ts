@@ -134,6 +134,18 @@ async function seedDatabase() {
       features: ["Garden", "Garage", "Smart Home"],
       isFeatured: true
     });
+    await storage.createProperty({
+      title: "Luxury Penthouse",
+      description: "Exclusive penthouse with panoramic views of the Burj Khalifa.",
+      type: "buy",
+      location: "Downtown Dubai",
+      price: 5000000,
+      imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800",
+      images: ["https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800"],
+      specs: { bedrooms: 4, bathrooms: 5, area: 6500 },
+      features: ["Private Pool", "Helipad Access", "Concierge"],
+      isFeatured: true
+    });
   }
 
   const existingCars = await storage.getCars();
@@ -145,6 +157,15 @@ async function seedDatabase() {
       imageUrl: "https://images.unsplash.com/photo-1536700503339-1e4b06520771?auto=format&fit=crop&w=800",
       images: ["https://images.unsplash.com/photo-1536700503339-1e4b06520771?auto=format&fit=crop&w=800"],
       features: ["Autopilot", "Electric", "GPS"],
+      isAvailable: true
+    });
+    await storage.createCar({
+      name: "Lamborghini Huracán",
+      category: "luxury",
+      pricePerDay: 1200,
+      imageUrl: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=800",
+      images: ["https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=800"],
+      features: ["V10 Engine", "Convertible", "Sport Mode"],
       isAvailable: true
     });
     await storage.createCar({
