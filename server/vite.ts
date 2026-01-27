@@ -1,4 +1,4 @@
-import { type Express } from "express";
+import { type Express, static as expressStatic } from "express";
 import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
@@ -71,12 +71,22 @@ export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "..", "dist", "public");
 
   if (!fs.existsSync(distPath)) {
+    // For deployment, fallback to the current directory if dist is not found
+    const fallbackPath = path.resolve(__dirname, "public");
+    if (fs.existsSync(fallbackPath)) {
+      app.use(expressStatic(fallbackPath));
+      app.use("*", (_req, res) => {
+        res.sendFile(path.resolve(fallbackPath, "index.html"));
+      });
+      return;
+    }
+    
     throw new Error(
       `Could not find the build directory: ${distPath}. Make sure to build the client first.`,
     );
   }
 
-  app.use(express.static(distPath));
+  app.use(expressStatic(distPath));
 
   // fall back to index.html for SPA
   app.use("*", (_req, res) => {
