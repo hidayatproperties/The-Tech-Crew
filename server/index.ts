@@ -7,10 +7,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// CRITICAL: OPEN PORT IMMEDIATELY FOR REPLIT HEALTH CHECK
-// This must be the very first thing that happens.
-const server = createServer(app);
+// FORCE PORT 5000 - No environment variable fallback for stability
 const PORT = 5000;
+
+// 1. OPEN PORT IMMEDIATELY
+const server = createServer(app);
 
 server.listen(PORT, "0.0.0.0", () => {
   log(`serving on port ${PORT}`);
@@ -47,7 +48,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 (async () => {
   try {
-    // registerRoutes now happens AFTER the port is open and listening
+    // 2. INITIALIZE ROUTES AFTER PORT IS OPEN
     await registerRoutes(app);
 
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -63,6 +64,5 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     }
   } catch (e: any) {
     log(`Initialization error: ${e.message}`);
-    // Do not exit, keep the port open so Replit doesn't fail the health check
   }
 })();
