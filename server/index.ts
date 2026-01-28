@@ -42,12 +42,29 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
   await registerRoutes(app);
 
-  // IMPORTANT: For Replit deployment, the app must listen on port 5000.
-  // We move the listen call here to ensure the port is opened as early as possible.
+  // IMPORTANT: For Replit deployment, the app MUST listen on port 5000.
+  // We use a forced port 5000 to ensure Replit's health check passes.
   const PORT = 5000;
-  server.listen(PORT, "0.0.0.0", () => {
-    log(`serving on port ${PORT}`);
-  });
+  
+  const startServer = () => {
+    try {
+      server.listen(PORT, "0.0.0.0", () => {
+        log(`serving on port ${PORT}`);
+      }).on('error', (err: any) => {
+        if (err.code === 'EADDRINUSE') {
+          log(`Port ${PORT} is busy, retrying in 1s...`);
+          server.close();
+          setTimeout(startServer, 1000);
+        } else {
+          log(`Server error: ${err.message}`);
+        }
+      });
+    } catch (e: any) {
+      log(`Failed to start server: ${e.message}`);
+    }
+  };
+
+  startServer();
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
