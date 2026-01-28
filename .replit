@@ -50,5 +50,5 @@ outputType = "webview"
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["node", "dist/index.cjs"]
+run = ["node", "dist/index.js"]
 build = ["npm", "run", "build"]
