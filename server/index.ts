@@ -42,6 +42,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
   await registerRoutes(app);
 
+  // IMPORTANT: For Replit deployment, the app must listen on port 5000.
+  // We move the listen call here to ensure the port is opened as early as possible.
+  const PORT = 5000;
+  server.listen(PORT, "0.0.0.0", () => {
+    log(`serving on port ${PORT}`);
+  });
+
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
@@ -55,9 +62,4 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   } else {
     serveStatic(app);
   }
-
-  const PORT = 5000;
-  server.listen(PORT, "0.0.0.0", () => {
-    log(`serving on port ${PORT}`);
-  });
 })();
