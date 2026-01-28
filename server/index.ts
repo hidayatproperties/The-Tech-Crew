@@ -7,54 +7,39 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// FORCE PORT 5000 - No environment variable fallback for stability
+// PORT 5000 is required for Replit publishing health checks
 const PORT = 5000;
 
 // 1. OPEN PORT IMMEDIATELY
+// Replit publishing system needs to see a listening port within seconds.
 const server = createServer(app);
 
 server.listen(PORT, "0.0.0.0", () => {
   log(`serving on port ${PORT}`);
 });
 
-// Logging middleware
+// Minimal logging
 app.use((req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
-  const path = req.path;
-  let resBody: any;
-
-  const oldJson = res.json;
-  res.json = function (body) {
-    resBody = body;
-    return oldJson.apply(this, arguments as any);
-  };
-
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (resBody) {
-        logLine += ` :: ${JSON.stringify(resBody)}`;
-      }
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-      log(logLine);
+    if (req.path.startsWith("/api")) {
+      log(`${req.method} ${req.path} ${res.statusCode} in ${duration}ms`);
     }
   });
-
   next();
 });
 
+// 2. BACKGROUND INITIALIZATION
+// We initialize routes and static files without blocking the 'listen' call above.
 (async () => {
   try {
-    // 2. INITIALIZE ROUTES AFTER PORT IS OPEN
     await registerRoutes(app);
 
+    // Error handling
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
-      const message = err.message || "Internal Server Error";
-      res.status(status).json({ message });
+      res.status(status).json({ message: err.message || "Internal Server Error" });
     });
 
     if (app.get("env") === "development") {
@@ -63,6 +48,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
       serveStatic(app);
     }
   } catch (e: any) {
-    log(`Initialization error: ${e.message}`);
+    log(`Startup Error: ${e.message}`);
   }
 })();
