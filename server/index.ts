@@ -7,7 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// 1. OPEN PORT IMMEDIATELY FOR REPLIT HEALTH CHECK
+// CRITICAL: OPEN PORT IMMEDIATELY FOR REPLIT HEALTH CHECK
+// This must be the very first thing that happens.
 const server = createServer(app);
 const PORT = 5000;
 
@@ -15,7 +16,7 @@ server.listen(PORT, "0.0.0.0", () => {
   log(`serving on port ${PORT}`);
 });
 
-// 2. LOGGING MIDDLEWARE
+// Logging middleware
 app.use((req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
   const path = req.path;
@@ -44,10 +45,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// 3. MINIMAL AND FAST INITIALIZATION
 (async () => {
   try {
-    // Skip heavy operations or move them inside try-catch to not block startup
+    // registerRoutes now happens AFTER the port is open and listening
     await registerRoutes(app);
 
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -63,5 +63,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     }
   } catch (e: any) {
     log(`Initialization error: ${e.message}`);
+    // Do not exit, keep the port open so Replit doesn't fail the health check
   }
 })();
