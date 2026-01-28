@@ -7,18 +7,19 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// PORT 5000 is required for Replit publishing health checks
+// PORT 5000 is required for Replit publishing health checks.
+// We use a constant to ensure it's always this port.
 const PORT = 5000;
 
 // 1. OPEN PORT IMMEDIATELY
-// Replit publishing system needs to see a listening port within seconds.
+// This is the absolute first thing that happens to satisfy Replit's health check.
 const server = createServer(app);
 
 server.listen(PORT, "0.0.0.0", () => {
-  log(`serving on port ${PORT}`);
+  log(`Health check ready: serving on port ${PORT}`);
 });
 
-// Minimal logging
+// Middleware for logging
 app.use((req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
   res.on("finish", () => {
@@ -30,24 +31,29 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// 2. BACKGROUND INITIALIZATION
-// We initialize routes and static files without blocking the 'listen' call above.
+// 2. INITIALIZE APP LOGIC WITHOUT BLOCKING
+// We register routes and setup static files in a separate block.
 (async () => {
   try {
+    // Register all API and Auth routes
     await registerRoutes(app);
 
-    // Error handling
+    // Global error handler
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
       res.status(status).json({ message: err.message || "Internal Server Error" });
     });
 
+    // Finalize setup based on environment
     if (app.get("env") === "development") {
       await setupVite(server, app);
     } else {
       serveStatic(app);
     }
+    
+    log("App logic fully initialized.");
   } catch (e: any) {
-    log(`Startup Error: ${e.message}`);
+    log(`Initialization Error: ${e.message}`);
+    // We don't exit here so the port remains open for Replit's system.
   }
 })();
