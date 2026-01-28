@@ -81,6 +81,16 @@ export function serveStatic(app: Express) {
       return;
     }
     
+    // In some environments, it might be in ./public
+    const localPublicPath = path.resolve(process.cwd(), "public");
+    if (fs.existsSync(localPublicPath)) {
+       app.use(expressStatic(localPublicPath));
+       app.use("*", (_req, res) => {
+         res.sendFile(path.resolve(localPublicPath, "index.html"));
+       });
+       return;
+    }
+
     throw new Error(
       `Could not find the build directory: ${distPath}. Make sure to build the client first.`,
     );
