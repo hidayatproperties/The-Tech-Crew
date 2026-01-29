@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 const PORT = 5000;
 
 // 1. OPEN PORT IMMEDIATELY
-// This ensures Replit's health check passes instantly.
+// This ensures Replit's health check passes instantly regardless of initialization.
 const server = createServer(app);
 
 server.listen(PORT, "0.0.0.0", () => {
@@ -33,13 +33,16 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // 2. BACKGROUND INITIALIZATION
 (async () => {
   try {
+    // Register all API and Auth routes
     await registerRoutes(app);
 
+    // Global error handler
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
       res.status(status).json({ message: err.message || "Internal Server Error" });
     });
 
+    // Finalize setup based on environment
     if (app.get("env") === "development") {
       await setupVite(server, app);
     } else {
