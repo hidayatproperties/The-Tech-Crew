@@ -232,6 +232,10 @@ function PropertiesManager() {
                     <input type="number" {...form.register("specs.bedrooms", { valueAsNumber: true })} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                   </div>
                   <div className="space-y-1.5">
+                    <label className="block text-sm font-semibold text-slate-700">Bathrooms</label>
+                    <input type="number" {...form.register("specs.bathrooms", { valueAsNumber: true })} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                  </div>
+                  <div className="space-y-1.5">
                     <label className="block text-sm font-semibold text-slate-700">Area (sqft)</label>
                     <input type="number" {...form.register("specs.area", { valueAsNumber: true })} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
                   </div>
@@ -280,7 +284,7 @@ function PropertiesManager() {
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-slate-100">
-                      <img src={p.imageUrl} alt={p.title} className="w-full h-full object-cover" />
+                      <img src={p.imageUrl || ''} alt={p.title} className="w-full h-full object-cover" />
                     </div>
                     <div>
                       <div className="font-bold text-slate-900">{p.title}</div>
@@ -511,7 +515,7 @@ function CarsManager() {
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-slate-100">
-                      <img src={c.imageUrl} alt={c.name} className="w-full h-full object-cover" />
+                      <img src={c.imageUrl || ''} alt={c.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="font-bold text-slate-900">{c.name}</div>
                   </div>
