@@ -14,13 +14,13 @@ export const users = pgTable("users", {
 export const properties = pgTable("properties", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
-  description: text("description").notNull(),
-  type: text("type").notNull(), // 'buy' or 'rent'
-  location: text("location").notNull(),
+  description: text("description"),
+  type: text("type"), // 'buy' or 'rent'
+  location: text("location"),
   price: integer("price"),
-  imageUrl: text("image_url").notNull(),
+  imageUrl: text("image_url"),
   images: text("images").array().notNull().default([]),
-  specs: jsonb("specs").$type<{ bedrooms: number; bathrooms: number; area: number }>().notNull(),
+  specs: jsonb("specs").$type<{ bedrooms?: number; bathrooms?: number; area?: number }>(),
   features: text("features").array(),
   isFeatured: boolean("is_featured").default(false),
 });
@@ -29,9 +29,9 @@ export const properties = pgTable("properties", {
 export const cars = pgTable("cars", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  category: text("category").notNull(), // 'economy', 'luxury', '4x4'
-  pricePerDay: integer("price_per_day").notNull(),
-  imageUrl: text("image_url").notNull(),
+  category: text("category"), // 'economy', 'luxury', '4x4'
+  pricePerDay: integer("price_per_day"),
+  imageUrl: text("image_url"),
   images: text("images").array().notNull().default([]),
   isAvailable: boolean("is_available").default(true),
   features: text("features").array(),
