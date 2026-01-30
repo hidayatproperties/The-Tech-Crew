@@ -10,7 +10,7 @@ export function PropertyCard({ property }: { property: Property }) {
     <div className="glass-card overflow-hidden group">
       <div className="relative h-64 overflow-hidden">
         <img 
-          src={property.imageUrl} 
+          src={property.imageUrl || ''} 
           alt={property.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
@@ -41,18 +41,24 @@ export function PropertyCard({ property }: { property: Property }) {
         </div>
 
         <div className="flex justify-between border-t border-border pt-4 text-sm text-muted-foreground">
-          <div className="flex items-center">
-            <BedDouble className="w-4 h-4 mr-2 text-primary" />
-            <span>{specs.bedrooms} Beds</span>
-          </div>
-          <div className="flex items-center">
-            <Bath className="w-4 h-4 mr-2 text-primary" />
-            <span>{specs.bathrooms} Baths</span>
-          </div>
-          <div className="flex items-center">
-            <Square className="w-4 h-4 mr-2 text-primary" />
-            <span>{specs.area} sqft</span>
-          </div>
+          {specs.bedrooms !== undefined && specs.bedrooms !== null && (
+            <div className="flex items-center">
+              <BedDouble className="w-4 h-4 mr-2 text-primary" />
+              <span>{specs.bedrooms} Beds</span>
+            </div>
+          )}
+          {specs.bathrooms !== undefined && specs.bathrooms !== null && (
+            <div className="flex items-center">
+              <Bath className="w-4 h-4 mr-2 text-primary" />
+              <span>{specs.bathrooms} Baths</span>
+            </div>
+          )}
+          {specs.area !== undefined && specs.area !== null && (
+            <div className="flex items-center">
+              <Square className="w-4 h-4 mr-2 text-primary" />
+              <span>{specs.area} sqft</span>
+            </div>
+          )}
         </div>
 
         <Link href={`/real-estate/${property.id}`} className="block mt-6 w-full py-3 text-center rounded-xl font-semibold bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-300">

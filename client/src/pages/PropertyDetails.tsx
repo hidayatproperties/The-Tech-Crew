@@ -51,7 +51,7 @@ export default function PropertyDetails() {
           <div className="space-y-6">
             <div className="aspect-video rounded-3xl overflow-hidden shadow-2xl">
               <img 
-                src={property.imageUrl} 
+                src={property.imageUrl || ''} 
                 alt={property.title}
                 className="w-full h-full object-cover"
               />
@@ -73,21 +73,27 @@ export default function PropertyDetails() {
               </div>
             )}
             <div className="grid grid-cols-3 gap-4">
-              <div className="bg-primary/5 p-4 rounded-2xl border border-primary/10 text-center">
-                <BedDouble className="w-6 h-6 mx-auto mb-2 text-primary" />
-                <p className="text-sm text-muted-foreground">Bedrooms</p>
-                <p className="font-bold">{specs.bedrooms}</p>
-              </div>
-              <div className="bg-primary/5 p-4 rounded-2xl border border-primary/10 text-center">
-                <Bath className="w-6 h-6 mx-auto mb-2 text-primary" />
-                <p className="text-sm text-muted-foreground">Bathrooms</p>
-                <p className="font-bold">{specs.bathrooms}</p>
-              </div>
-              <div className="bg-primary/5 p-4 rounded-2xl border border-primary/10 text-center">
-                <Square className="w-6 h-6 mx-auto mb-2 text-primary" />
-                <p className="text-sm text-muted-foreground">Area</p>
-                <p className="font-bold">{specs.area} sqft</p>
-              </div>
+              {specs.bedrooms !== undefined && specs.bedrooms !== null && (
+                <div className="bg-primary/5 p-4 rounded-2xl border border-primary/10 text-center">
+                  <BedDouble className="w-6 h-6 mx-auto mb-2 text-primary" />
+                  <p className="text-sm text-muted-foreground">Bedrooms</p>
+                  <p className="font-bold">{specs.bedrooms}</p>
+                </div>
+              )}
+              {specs.bathrooms !== undefined && specs.bathrooms !== null && (
+                <div className="bg-primary/5 p-4 rounded-2xl border border-primary/10 text-center">
+                  <Bath className="w-6 h-6 mx-auto mb-2 text-primary" />
+                  <p className="text-sm text-muted-foreground">Bathrooms</p>
+                  <p className="font-bold">{specs.bathrooms}</p>
+                </div>
+              )}
+              {specs.area !== undefined && specs.area !== null && (
+                <div className="bg-primary/5 p-4 rounded-2xl border border-primary/10 text-center">
+                  <Square className="w-6 h-6 mx-auto mb-2 text-primary" />
+                  <p className="text-sm text-muted-foreground">Area</p>
+                  <p className="font-bold">{specs.area} sqft</p>
+                </div>
+              )}
             </div>
           </div>
 
