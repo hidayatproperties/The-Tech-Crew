@@ -15,7 +15,7 @@ export function PropertyCard({ property }: { property: Property }) {
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-          {property.type}
+          {property.type === 'both' ? 'Buy / Rent' : property.type}
         </div>
         {property.isFeatured && (
           <div className="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
@@ -31,6 +31,7 @@ export function PropertyCard({ property }: { property: Property }) {
             <span className="font-bold text-primary whitespace-nowrap">
               ${property.price.toLocaleString()}
               {property.type === 'rent' && <span className="text-sm text-muted-foreground font-normal">/mo</span>}
+              {property.type === 'both' && <span className="text-sm text-muted-foreground font-normal"> (Sale/Rent)</span>}
             </span>
           )}
         </div>

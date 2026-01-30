@@ -101,7 +101,7 @@ export default function PropertyDetails() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <span className="bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                  {property.type}
+                  {property.type === 'both' ? 'Buy / Rent' : property.type}
                 </span>
                 {property.isFeatured && (
                   <span className="bg-accent text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">

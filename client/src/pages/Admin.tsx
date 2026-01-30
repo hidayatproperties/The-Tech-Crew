@@ -185,6 +185,7 @@ function PropertiesManager() {
                     <select {...form.register("type")} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all bg-white">
                       <option value="buy">Buy</option>
                       <option value="rent">Rent</option>
+                      <option value="both">Buy/Rent</option>
                     </select>
                   </div>
                   <div className="space-y-1.5">
