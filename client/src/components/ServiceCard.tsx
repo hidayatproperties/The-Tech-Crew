@@ -9,9 +9,10 @@ interface ServiceCardProps {
   href: string;
   className?: string;
   delay?: string;
+  ctaText?: string;
 }
 
-export function ServiceCard({ title, description, icon: Icon, href, className, delay }: ServiceCardProps) {
+export function ServiceCard({ title, description, icon: Icon, href, className, delay, ctaText = "Learn More" }: ServiceCardProps) {
   return (
     <div 
       className={cn("glass-card p-8 flex flex-col h-full group relative overflow-hidden", className)}
@@ -27,7 +28,7 @@ export function ServiceCard({ title, description, icon: Icon, href, className, d
       <p className="text-muted-foreground mb-6 flex-grow">{description}</p>
       
       <Link href={href} className="inline-flex items-center font-semibold text-primary group-hover:translate-x-1 transition-transform">
-        Learn More <ArrowRight className="w-4 h-4 ml-2" />
+        {ctaText} <ArrowRight className="w-4 h-4 ml-2" />
       </Link>
     </div>
   );

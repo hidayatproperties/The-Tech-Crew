@@ -46,30 +46,35 @@ export default function Home() {
               description="Find your perfect home or investment property with our curated listings."
               icon={Building2}
               href="/real-estate"
+              ctaText="View Properties"
             />
             <ServiceCard 
               title="Property Management" 
               description="Full-service management including maintenance, photography, and legal docs."
               icon={Key}
               href="/property-management"
+              ctaText="Our Services"
             />
             <ServiceCard 
               title="Company Formation" 
               description="Launch your business in Dubai with our PRO, Visa, and licensing services."
               icon={Building}
               href="/company-formation"
+              ctaText="Start Now"
             />
             <ServiceCard 
               title="Digital Marketing" 
               description="Boost your brand with SEO, social media management, and web design."
               icon={TrendingUp}
               href="/digital-marketing"
+              ctaText="Grow Now"
             />
             <ServiceCard 
               title="Car Rentals" 
               description="Premium fleet of economy, luxury, and 4x4 vehicles for your journey."
               icon={Car}
               href="/car-rentals"
+              ctaText="Book Now"
             />
           </div>
         </div>
