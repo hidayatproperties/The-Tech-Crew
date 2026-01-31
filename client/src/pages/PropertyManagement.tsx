@@ -53,9 +53,9 @@ export default function PropertyManagement() {
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 rounded-3xl blur-2xl transform rotate-3"></div>
             {/* Interior design / living room image */}
             <img 
-              src="https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?q=80&w=2070&auto=format&fit=crop" 
-              alt="Management" 
-              className="relative rounded-3xl shadow-2xl border-4 border-white"
+             
+              
+              
             />
           </div>
         </div>
