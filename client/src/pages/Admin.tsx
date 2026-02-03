@@ -555,6 +555,7 @@ function CarsManager() {
 
 function EnquiriesList() {
   const { data: enquiries, isLoading } = useEnquiries();
+  const [selectedEnquiry, setSelectedEnquiry] = useState<any>(null);
 
   if (isLoading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
 
@@ -566,31 +567,37 @@ function EnquiriesList() {
       </div>
       <div className="grid gap-4">
         {enquiries?.map(e => (
-          <div key={e.id} className="p-6 rounded-2xl border border-slate-200 hover:border-primary/30 hover:bg-slate-50/50 transition-all duration-300">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+          <div 
+            key={e.id} 
+            onClick={() => setSelectedEnquiry(e)}
+            className="p-6 rounded-2xl border border-slate-200 hover:border-primary/30 hover:bg-slate-50/50 transition-all duration-300 cursor-pointer group"
+          >
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xl flex-shrink-0">
                   {e.name.charAt(0).toUpperCase()}
                 </div>
-                <div>
-                  <span className="font-bold text-slate-900 text-lg">{e.name}</span>
-                  <div className="flex items-center gap-3 text-sm text-slate-500">
-                    <a href={`mailto:${e.email}`} className="hover:text-primary transition-colors">{e.email}</a>
-                    {e.phone && <span>• {e.phone}</span>}
+                <div className="min-w-0">
+                  <span className="font-bold text-slate-900 text-lg block truncate">{e.name}</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-sm text-slate-500">
+                    <span className="truncate">{e.email}</span>
+                    {e.phone && <span className="hidden sm:inline text-slate-300">•</span>}
+                    {e.phone && <span className="truncate">{e.phone}</span>}
                   </div>
                 </div>
               </div>
-              <span className="text-[10px] font-black tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full uppercase">
+              <span className="text-[10px] font-black tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full uppercase flex-shrink-0">
                 {e.type.replace('-', ' ')}
               </span>
             </div>
-            <div className="bg-white p-4 rounded-xl border border-slate-100 text-slate-700 text-sm leading-relaxed shadow-sm italic">
+            <div className="bg-white p-4 rounded-xl border border-slate-100 text-slate-700 text-sm leading-relaxed shadow-sm italic line-clamp-2 group-hover:line-clamp-none transition-all">
               "{e.message}"
             </div>
-            <div className="mt-4 flex justify-end">
+            <div className="mt-4 flex justify-between items-center">
               <span className="text-[10px] text-slate-400 font-medium">
                 Received on {new Date(e.createdAt || '').toLocaleDateString()}
               </span>
+              <span className="text-xs text-primary font-bold sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">View Details →</span>
             </div>
           </div>
         ))}
@@ -603,6 +610,64 @@ function EnquiriesList() {
           </div>
         )}
       </div>
+
+      {/* Enquiry Detail Modal */}
+      {selectedEnquiry && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in duration-200">
+            <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+              <h3 className="font-bold text-slate-900 text-lg">Enquiry Details</h3>
+              <button onClick={() => setSelectedEnquiry(null)} className="p-2 hover:bg-slate-200 rounded-full transition-colors">
+                <X className="w-5 h-5 text-slate-500" />
+              </button>
+            </div>
+            <div className="p-8 space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-2xl">
+                  {selectedEnquiry.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <h4 className="text-2xl font-bold text-slate-900">{selectedEnquiry.name}</h4>
+                  <span className="text-xs font-black tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full uppercase">
+                    {selectedEnquiry.type.replace('-', ' ')}
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Email Address</label>
+                  <a href={`mailto:${selectedEnquiry.email}`} className="text-slate-900 font-medium hover:text-primary transition-colors block underline underline-offset-4">{selectedEnquiry.email}</a>
+                </div>
+                {selectedEnquiry.phone && (
+                  <div>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Phone Number</label>
+                    <p className="text-slate-900 font-medium">{selectedEnquiry.phone}</p>
+                  </div>
+                )}
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Received Date</label>
+                  <p className="text-slate-900 font-medium">{new Date(selectedEnquiry.createdAt || '').toLocaleString()}</p>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Message</label>
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 text-slate-700 leading-relaxed italic shadow-inner">
+                  "{selectedEnquiry.message}"
+                </div>
+              </div>
+
+              <button 
+                onClick={() => setSelectedEnquiry(null)}
+                className="w-full py-4 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg"
+              >
+                Close Details
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
