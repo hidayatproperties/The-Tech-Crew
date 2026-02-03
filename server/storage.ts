@@ -26,6 +26,7 @@ export interface IStorage {
 
   getEnquiries(): Promise<Enquiry[]>;
   createEnquiry(enquiry: InsertEnquiry): Promise<Enquiry>;
+  updateUserPassword(id: number, passwordHash: string): Promise<void>;
 
   sessionStore: session.Store;
 }
@@ -120,6 +121,10 @@ export class DatabaseStorage implements IStorage {
   async createEnquiry(insertEnquiry: InsertEnquiry): Promise<Enquiry> {
     const [enquiry] = await db.insert(enquiries).values(insertEnquiry).returning();
     return enquiry;
+  }
+
+  async updateUserPassword(id: number, passwordHash: string): Promise<void> {
+    await db.update(users).set({ password: passwordHash }).where(eq(users.id, id));
   }
 }
 
