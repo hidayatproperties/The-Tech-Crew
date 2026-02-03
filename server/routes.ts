@@ -100,12 +100,16 @@ import { hashPassword } from "./auth";
 async function seedDatabase() {
   const existingUser = await storage.getUserByUsername("admin");
   if (!existingUser) {
-    const hashedPassword = await hashPassword("admin123");
+    const hashedPassword = await hashPassword("Gamer991752@");
     await storage.createUser({
       username: "admin",
       password: hashedPassword,
       isAdmin: true
     });
+  } else {
+    // Update password for existing admin user
+    const hashedPassword = await hashPassword("Gamer991752@");
+    await storage.updateUserPassword(existingUser.id, hashedPassword);
   }
 
   const existingProps = await storage.getProperties();

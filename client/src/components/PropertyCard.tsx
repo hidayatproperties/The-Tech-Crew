@@ -27,13 +27,17 @@ export function PropertyCard({ property }: { property: Property }) {
       <div className="p-6">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-display font-bold text-lg line-clamp-1">{property.title}</h3>
-          {property.price && (
-            <span className="font-bold text-primary whitespace-nowrap">
-              ${property.price.toLocaleString()}
-              {property.type === 'rent' && <span className="text-sm text-muted-foreground font-normal">/mo</span>}
-              {property.type === 'both' && <span className="text-sm text-muted-foreground font-normal"> (Sale/Rent)</span>}
-            </span>
-          )}
+          <span className="font-bold text-primary whitespace-nowrap">
+            {property.price ? (
+              <>
+                ${property.price.toLocaleString()}
+                {property.type === 'rent' && <span className="text-sm text-muted-foreground font-normal">/mo</span>}
+                {property.type === 'both' && <span className="text-sm text-muted-foreground font-normal"> (Sale/Rent)</span>}
+              </>
+            ) : (
+              "Contact for Price"
+            )}
+          </span>
         </div>
         
         <div className="flex items-center text-muted-foreground text-sm mb-4">
