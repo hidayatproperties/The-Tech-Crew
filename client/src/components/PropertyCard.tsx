@@ -35,7 +35,14 @@ export function PropertyCard({ property }: { property: Property }) {
                 {property.type === 'both' && <span className="text-sm text-muted-foreground font-normal"> (Sale/Rent)</span>}
               </>
             ) : (
-              "Contact for Price"
+              <a 
+                href={`https://wa.me/971565740835?text=${encodeURIComponent(`I'm interested in: ${property.title} (${property.location})`)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs hover:underline"
+              >
+                Contact for Price
+              </a>
             )}
           </span>
         </div>

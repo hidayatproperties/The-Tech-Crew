@@ -121,7 +121,14 @@ export default function PropertyDetails() {
                     {property.type === 'rent' && <span className="text-xl text-muted-foreground font-normal">/month</span>}
                   </>
                 ) : (
-                  "Contact for Price"
+                  <a 
+                    href={`https://wa.me/971565740835?text=${encodeURIComponent(`I'm interested in: ${property.title} (${property.location})`)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-lg hover:underline"
+                  >
+                    Contact for Price
+                  </a>
                 )}
               </div>
             </div>

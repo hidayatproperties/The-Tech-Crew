@@ -27,7 +27,8 @@ export default function Home() {
           </h1>
           <p className="text-xl md:text-2xl text-black font-semibold max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-5 duration-700 delay-100">
             From finding your dream home to launching your dream business. 
-            The Tech Crew is your partner in growth.
+            The Tech Crew is your growth partner in Dubai.
+            
           </p>
         </div>
       </section>
