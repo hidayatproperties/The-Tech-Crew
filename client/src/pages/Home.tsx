@@ -16,7 +16,7 @@ export default function Home() {
           <img 
             src="https://i.postimg.cc/yNLZHq61/david-rodrigo-Fr6zexbmjmc-unsplash.jpg" 
             alt="City Skyline" 
-            className="w-full h-full object-cover opacity-100"
+            className="w-full h-full object-cover opacity-50"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background"></div>
         </div>
