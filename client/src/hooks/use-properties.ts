@@ -3,7 +3,7 @@ import { api, buildUrl } from "@shared/routes";
 import type { InsertProperty } from "@shared/schema";
 
 type PropertyFilter = {
-  type?: 'buy' | 'rent';
+  type?: 'buy' | 'rent' | 'both';
   minPrice?: string;
   maxPrice?: string;
 };
