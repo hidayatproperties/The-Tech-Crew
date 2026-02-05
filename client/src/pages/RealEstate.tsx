@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
 export default function RealEstate() {
-  const [filter, setFilter] = useState<'all' | 'buy' | 'rent'>('all');
+  const [filter, setFilter] = useState<'all' | 'buy' | 'rent' | 'both'>('all');
   const { data: properties, isLoading } = useProperties(
     filter === 'all' ? undefined : { type: filter }
   );
@@ -27,7 +27,7 @@ export default function RealEstate() {
         {/* Filters */}
         <div className="flex justify-center mb-12">
           <div className="inline-flex bg-white p-1 rounded-xl shadow-sm border border-border">
-            {['all', 'buy', 'rent'].map((f) => (
+            {['all', 'buy', 'rent', 'both'].map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f as any)}
@@ -37,7 +37,7 @@ export default function RealEstate() {
                     : 'text-muted-foreground hover:bg-slate-50'
                 }`}
               >
-                {f}
+                {f === 'both' ? 'Buy/Rent' : f}
               </button>
             ))}
           </div>
