@@ -1,16 +1,38 @@
 import type { Car } from "@shared/schema";
-import { Check, Star, ImageIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, Star, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useCallback, useEffect } from "react";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
+import { cn } from "@/lib/utils";
 
 export function CarCard({ car }: { car: Car }) {
   const [showGallery, setShowGallery] = useState(false);
+  const [showControls, setShowControls] = useState(false);
   const allImages = [car.imageUrl, ...(car.images || [])];
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 4000, stopOnInteraction: false })
   ]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+    setShowControls(true);
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.on('select', onSelect);
+    emblaApi.on('pointerDown', () => setShowControls(true));
+  }, [emblaApi, onSelect]);
+
+  useEffect(() => {
+    if (showControls) {
+      const timer = setTimeout(() => setShowControls(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showControls, selectedIndex]);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -20,13 +42,17 @@ export function CarCard({ car }: { car: Car }) {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
+  const scrollTo = useCallback((index: number) => {
+    if (emblaApi) emblaApi.scrollTo(index);
+  }, [emblaApi]);
+
   return (
-    <div className="glass-card overflow-hidden group flex flex-col h-full">
+    <div className="glass-card overflow-hidden group flex flex-col h-full" onMouseEnter={() => setShowControls(true)}>
       <div className="relative h-56 overflow-hidden bg-gray-100">
         <div className="h-full w-full overflow-hidden" ref={emblaRef}>
           <div className="flex h-full">
             {allImages.map((img, index) => (
-              <div key={index} className="flex-[0_0_100%] min-w-0 h-full relative">
+              <div key={index} className="flex-[0_0_100%] min-w-0 h-full relative cursor-pointer" onClick={() => setShowGallery(true)}>
                 <img 
                   src={img || ""} 
                   alt={`${car.name} - ${index + 1}`}
@@ -37,8 +63,11 @@ export function CarCard({ car }: { car: Car }) {
           </div>
         </div>
 
-        {/* Navigation Arrows - Visible on Hover */}
-        <div className="absolute inset-0 flex items-center justify-between px-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        {/* Navigation Arrows - Visible on Scroll/Slide */}
+        <div className={cn(
+          "absolute inset-0 flex items-center justify-between px-2 transition-opacity duration-500 pointer-events-none",
+          showControls ? "opacity-100" : "opacity-0"
+        )}>
           <button 
             onClick={(e) => { e.stopPropagation(); scrollPrev(); }}
             className="p-1.5 rounded-full bg-white/80 backdrop-blur-sm text-slate-800 pointer-events-auto hover:bg-white transition-all shadow-md"
@@ -53,18 +82,26 @@ export function CarCard({ car }: { car: Car }) {
           </button>
         </div>
 
+        {/* Pagination Dots */}
+        <div className={cn(
+          "absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 transition-opacity duration-500",
+          showControls ? "opacity-100" : "opacity-0"
+        )}>
+          {allImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={(e) => { e.stopPropagation(); scrollTo(index); }}
+              className={cn(
+                "w-1.5 h-1.5 rounded-full transition-all duration-300",
+                index === selectedIndex ? "bg-white w-4" : "bg-white/50"
+              )}
+            />
+          ))}
+        </div>
+
         <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider z-10">
           {car.category}
         </div>
-        
-        {car.images && car.images.length > 0 && (
-          <button 
-            onClick={() => setShowGallery(true)}
-            className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-xl shadow-lg hover:bg-white transition-colors z-10"
-          >
-            <ImageIcon className="w-5 h-5 text-slate-700" />
-          </button>
-        )}
       </div>
 
       {showGallery && (
