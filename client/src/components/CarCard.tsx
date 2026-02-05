@@ -28,7 +28,7 @@ export function CarCard({ car }: { car: Car }) {
             {allImages.map((img, index) => (
               <div key={index} className="flex-[0_0_100%] min-w-0 h-full relative">
                 <img 
-                  src={img} 
+                  src={img || ""} 
                   alt={`${car.name} - ${index + 1}`}
                   className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
                 />
@@ -79,7 +79,7 @@ export function CarCard({ car }: { car: Car }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {allImages.map((img, idx) => (
                 <div key={idx} className="aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-                  <img src={img} alt={`${car.name} - ${idx + 1}`} className="w-full h-full object-cover" />
+                  <img src={img || ""} alt={`${car.name} - ${idx + 1}`} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
