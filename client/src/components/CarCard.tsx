@@ -1,22 +1,62 @@
 import type { Car } from "@shared/schema";
-import { Check, Star, ImageIcon, X } from "lucide-react";
-import { useState } from "react";
+import { Check, Star, ImageIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useCallback, useEffect } from "react";
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 export function CarCard({ car }: { car: Car }) {
   const [showGallery, setShowGallery] = useState(false);
   const allImages = [car.imageUrl, ...(car.images || [])];
 
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 4000, stopOnInteraction: false })
+  ]);
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
   return (
     <div className="glass-card overflow-hidden group flex flex-col h-full">
       <div className="relative h-56 overflow-hidden bg-gray-100">
-        <img 
-          src={car.imageUrl} 
-          alt={car.name}
-          className="w-full h-full object-cover mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+        <div className="h-full w-full overflow-hidden" ref={emblaRef}>
+          <div className="flex h-full">
+            {allImages.map((img, index) => (
+              <div key={index} className="flex-[0_0_100%] min-w-0 h-full relative">
+                <img 
+                  src={img} 
+                  alt={`${car.name} - ${index + 1}`}
+                  className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Navigation Arrows - Visible on Hover */}
+        <div className="absolute inset-0 flex items-center justify-between px-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          <button 
+            onClick={(e) => { e.stopPropagation(); scrollPrev(); }}
+            className="p-1.5 rounded-full bg-white/80 backdrop-blur-sm text-slate-800 pointer-events-auto hover:bg-white transition-all shadow-md"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button 
+            onClick={(e) => { e.stopPropagation(); scrollNext(); }}
+            className="p-1.5 rounded-full bg-white/80 backdrop-blur-sm text-slate-800 pointer-events-auto hover:bg-white transition-all shadow-md"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider z-10">
           {car.category}
         </div>
+        
         {car.images && car.images.length > 0 && (
           <button 
             onClick={() => setShowGallery(true)}
