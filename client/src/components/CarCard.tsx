@@ -11,9 +11,7 @@ export function CarCard({ car }: { car: Car }) {
   const allImages = [car.imageUrl, ...(car.images || [])];
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 4000, stopOnInteraction: false })
-  ]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
