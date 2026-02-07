@@ -13,10 +13,10 @@ export function Navbar() {
   const links = [
     { href: "/", label: "Home" },
     { href: "/real-estate", label: "Real Estate" },
+    { href: "/car-rentals", label: "Car Rentals" },
     { href: "/property-management", label: "Property Management" },
     { href: "/company-formation", label: "Company Formation" },
     { href: "/digital-marketing", label: "Digital Marketing" },
-    { href: "/car-rentals", label: "Car Rentals" },
     { href: "/contact", label: "Contact" },
   ];
 
