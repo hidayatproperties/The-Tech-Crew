@@ -33,7 +33,7 @@ The server entry point is `server/index.ts`. Routes are registered in `server/ro
 - **ORM**: Drizzle ORM with PostgreSQL dialect
 - **Schema**: Defined in `shared/schema.ts` with tables for users, properties, cars, and enquiries
 - **Migrations**: Managed via drizzle-kit with output to `./migrations`
-- **Connection**: Uses `DATABASE_URL` environment variable
+- **Connection**: Uses `pg` (node-postgres) driver with `DATABASE_URL` environment variable
 
 ### Shared Code
 The `shared/` directory contains code used by both frontend and backend:

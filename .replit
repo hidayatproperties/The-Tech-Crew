@@ -7,7 +7,7 @@ channel = "stable-25_05"
 
 [[ports]]
 localPort = 5000
-externalPort = 5000
+externalPort = 80
 
 [env]
 PORT = "3001"
@@ -47,5 +47,5 @@ waitForPort = 5000
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["node", "dist/index.js"]
+run = ["node", "./dist/index.cjs"]
 build = ["npm", "run", "build"]
