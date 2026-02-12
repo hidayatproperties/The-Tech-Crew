@@ -15,6 +15,17 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
@@ -128,7 +139,7 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="absolute top-full left-0 right-0 mt-4 mx-auto w-[95%] max-w-lg bg-background/95 backdrop-blur-xl border border-border rounded-3xl shadow-2xl overflow-hidden p-6 z-50"
+              className="absolute top-full left-0 right-0 mt-4 mx-auto w-[95%] max-w-lg bg-background/95 backdrop-blur-xl border border-border rounded-3xl shadow-2xl overflow-y-auto max-h-[80vh] p-6 z-50 scrollbar-hide"
             >
               <div className="space-y-4">
                 {links.map((link) => (
