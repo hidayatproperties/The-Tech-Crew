@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
+import logoImg from "@assets/11989-removebg-preview_1770867866169.png";
+
 export function Navbar() {
   const [location] = useLocation();
   const { data: user } = useUser();
@@ -30,6 +32,9 @@ export function Navbar() {
     { href: "/contact", label: "Contact" },
   ];
 
+  const whatsappNumber = "+971506466230"; // Mohammad Asad's number from logic or context
+  const whatsappUrl = `https://wa.me/${whatsappNumber.replace("+", "")}`;
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none p-4 transition-all duration-500">
       <nav 
@@ -43,7 +48,7 @@ export function Navbar() {
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center space-x-2 text-primary hover:opacity-80 transition-opacity">
             <div className="bg-primary/10 p-2 rounded-xl">
-              <Rocket className="w-6 h-6 text-primary" />
+              <img src={logoImg} alt="The Tech Crew" className="w-6 h-6 object-contain" />
             </div>
             {!isScrolled && (
               <span className="font-display font-bold text-xl tracking-tight text-foreground hidden sm:block">The Tech Crew</span>
@@ -77,9 +82,11 @@ export function Navbar() {
           {/* Action Buttons */}
           <div className="flex items-center gap-2">
             <a 
-              href="tel:+971000000000" 
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-primary/10 hover:bg-primary/20 p-3 rounded-2xl transition-all duration-300 text-primary group"
-              title="Call Us"
+              title="Chat with Mohammad Asad"
             >
               <Phone className="w-5 h-5 group-hover:scale-110 transition-transform" />
             </a>
