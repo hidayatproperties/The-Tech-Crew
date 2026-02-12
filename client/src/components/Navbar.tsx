@@ -43,8 +43,8 @@ export function Navbar() {
     { href: "/contact", label: "Contact" },
   ];
 
-  const whatsappNumber = "+971506466230"; // Mohammad Asad's number from logic or context
-  const whatsappUrl = `https://wa.me/${whatsappNumber.replace("+", "")}`;
+  const whatsappNumber = "+971565740835"; // Updated WhatsApp number
+  const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/[\s+]/g, "")}`;
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none p-4 transition-all duration-500">
