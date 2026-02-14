@@ -8,7 +8,7 @@ export default function DigitalMarketing() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="pt-32 pb-20 px-4 text-center">
+      <section className="pt-32 pb-20 px-4 text-center bg-slate-50 rounded-b-[3rem] md:rounded-b-[5rem] shadow-xl">
         <h1 className="text-4xl md:text-6xl font-display font-extrabold mb-6">
           Scale Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Digital Presence</span>
         </h1>

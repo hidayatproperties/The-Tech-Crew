@@ -8,7 +8,7 @@ export default function CompanyFormation() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <div className="pt-32 pb-12 bg-slate-900 text-white">
+      <div className="pt-32 pb-12 bg-slate-900 text-white rounded-b-[3rem] md:rounded-b-[5rem] shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">Start Your Business in Dubai</h1>
           <p className="text-slate-400 max-w-2xl mx-auto">Expert guidance for company formation, PRO services, and visa processing.</p>

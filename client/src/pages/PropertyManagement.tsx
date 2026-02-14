@@ -19,7 +19,7 @@ export default function PropertyManagement() {
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      <div className="pt-32 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="pt-32 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-slate-50 rounded-b-[3rem] md:rounded-b-[5rem] shadow-xl">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <h1 className="text-4xl md:text-5xl font-display font-bold mb-6">

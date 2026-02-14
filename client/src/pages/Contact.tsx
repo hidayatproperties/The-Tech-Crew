@@ -55,7 +55,7 @@ export default function Contact() {
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      <div className="pt-32 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="pt-32 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-slate-50 rounded-b-[3rem] md:rounded-b-[5rem] shadow-xl">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">Get in Touch</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
