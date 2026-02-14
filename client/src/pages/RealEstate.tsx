@@ -16,7 +16,7 @@ export default function RealEstate() {
       <Navbar />
       
       {/* Page Header */}
-      <div className="pt-32 pb-12 bg-slate-900 text-white rounded-b-[3rem] md:rounded-b-[5rem] shadow-2xl">
+      <div className="pt-32 pb-12 bg-slate-900 text-white rounded-[3rem] md:rounded-[5rem] shadow-2xl mx-0 md:mx-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">Premium Real Estate</h1>
           <p className="text-slate-400 max-w-2xl mx-auto">Discover exclusive properties for sale and rent in prime locations.</p>
