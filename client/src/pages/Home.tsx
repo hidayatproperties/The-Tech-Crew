@@ -10,7 +10,7 @@ export default function Home() {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden rounded-b-[3rem] md:rounded-b-[5rem] shadow-2xl">
         <div className="absolute inset-0 z-0">
           {/* Hero background image - modern office/cityscape */}
           <img 
@@ -34,7 +34,7 @@ export default function Home() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-20 relative">
+      <section className="py-20 relative bg-muted/30 rounded-t-[3rem] md:rounded-t-[5rem] -mt-12 z-20 shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.1)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">Our Expertise</h2>
@@ -82,7 +82,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary/5 border-y border-primary/10">
+      <section className="py-20 bg-primary/5 border-y border-primary/10 rounded-[3rem] md:rounded-[5rem] mx-4 md:mx-8 my-12">
         <div className="max-w-5xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">Ready to transform your lifestyle?</h2>
           <p className="text-lg text-muted-foreground mb-10">Whether you need a new home, a new company license, or a ride for the weekend, we're here to help.</p>
