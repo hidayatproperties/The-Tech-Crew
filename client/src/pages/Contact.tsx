@@ -81,7 +81,7 @@ export default function Contact() {
                   <Mail className="w-6 h-6 text-primary mr-4 shrink-0" />
                   <div>
                     <p className="font-semibold">Email Us</p>
-                    <p className="text-muted-foreground">info@thetechcrew.org</p>
+                    <p className="text-muted-foreground">info@thetechcrew.ae</p>
                   </div>
                 </div>
               </div>
