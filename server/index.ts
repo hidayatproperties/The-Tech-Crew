@@ -7,8 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// PORT 5000 is required for Replit publishing health checks.
-const PORT = 5000;
+// Railway / production compatible PORT
+const PORT = process.env.PORT || 5000;
 
 // 1. OPEN PORT IMMEDIATELY
 // This ensures Replit's health check passes instantly regardless of initialization.
