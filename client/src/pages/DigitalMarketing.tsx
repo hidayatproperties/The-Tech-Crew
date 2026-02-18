@@ -40,7 +40,12 @@ export default function DigitalMarketing() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Social Media Marketing</h3>
-                  <p className="text-muted-foreground">Engage your audience across Instagram, LinkedIn, and Facebook with creative campaigns.</p>
+                  <p className="text-muted-foreground mb-4">Engage your audience across Instagram, LinkedIn, and Facebook with creative campaigns.</p>
+                  <div className="flex gap-4">
+                    <a href="https://www.instagram.com/thetechcrew.ae?igsh=MW9hNnp2cjk4dzUwNQ==" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-pink-600 hover:underline">Instagram</a>
+                    <a href="https://www.facebook.com/share/1BronVmFmf/" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-blue-600 hover:underline">Facebook</a>
+                    <a href="https://www.linkedin.com/in/the-tech-crew-49559b3b1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-slate-700 hover:underline">LinkedIn</a>
+                  </div>
                 </div>
               </div>
 

@@ -13,10 +13,10 @@ export function Footer() {
             Your all-in-one solution for business setup, property management, marketing, and more.
           </p>
           <div className="flex space-x-4">
-            <a href="#" className="hover:text-primary transition-colors"><Facebook className="w-5 h-5" /></a>
+            <a href="https://www.facebook.com/share/1BronVmFmf/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors"><Facebook className="w-5 h-5" /></a>
             <a href="#" className="hover:text-primary transition-colors"><Twitter className="w-5 h-5" /></a>
-            <a href="#" className="hover:text-primary transition-colors"><Instagram className="w-5 h-5" /></a>
-            <a href="#" className="hover:text-primary transition-colors"><Linkedin className="w-5 h-5" /></a>
+            <a href="https://www.instagram.com/thetechcrew.ae?igsh=MW9hNnp2cjk4dzUwNQ==" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors"><Instagram className="w-5 h-5" /></a>
+            <a href="https://www.linkedin.com/in/the-tech-crew-49559b3b1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors"><Linkedin className="w-5 h-5" /></a>
           </div>
         </div>
 
