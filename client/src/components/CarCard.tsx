@@ -134,7 +134,7 @@ export function CarCard({ car }: { car: Car }) {
             </div>
           </div>
           <div className="text-right">
-            <div className="font-bold text-2xl text-primary">AED{car.pricePerDay}</div>
+            <div className="font-bold text-2xl text-primary">{car.pricePerDay} AED</div>
             <div className="text-xs text-muted-foreground">per day</div>
           </div>
         </div>
