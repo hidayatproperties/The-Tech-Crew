@@ -40,7 +40,7 @@ export function Footer() {
               <Phone className="w-5 h-5 mr-2 shrink-0 text-primary" />
               <div className="flex flex-col">
                 <span>+971 56 574 0835 - Mohammad Asad</span>
-                <span>+971 54 797 6886 - Zishan Iqbal</span>
+                <span>+971 54 797 6886 - Zeeshaan Iqbal</span>
               </div>
             </li>
             <li className="flex items-center">

@@ -134,7 +134,7 @@ export function CarCard({ car }: { car: Car }) {
             </div>
           </div>
           <div className="text-right">
-            <div className="font-bold text-2xl text-primary">${car.pricePerDay}</div>
+            <div className="font-bold text-2xl text-primary">AED{car.pricePerDay}</div>
             <div className="text-xs text-muted-foreground">per day</div>
           </div>
         </div>
@@ -151,7 +151,7 @@ export function CarCard({ car }: { car: Car }) {
         <button 
           onClick={() => {
             const whatsappNumber = "971565740835";
-            const message = `Hello, I'm interested in booking the ${car.name} (${car.category}). Price: $${car.pricePerDay}/day. Please let me know availability.`;
+            const message = `Hello, I'm interested in booking the ${car.name} (${car.category}). Price: AED${car.pricePerDay}/day. Please let me know availability.`;
             window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
           }}
           className="w-full py-3 rounded-xl font-semibold bg-foreground text-background hover:bg-primary hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
